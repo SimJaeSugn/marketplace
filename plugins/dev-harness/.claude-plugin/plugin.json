@@ -1,0 +1,19 @@
+{
+  "name": "dev-harness",
+  "displayName": "Dev Harness — 기획→설계→구현 오케스트레이션",
+  "version": "1.0.0",
+  "description": "주제만 주면 메인 대화(PM)가 기획→설계→구현을 자동 오케스트레이션하는 하네스. product-planner·chief-architect·reviewer 파이프라인과 tech-lead 중심 개발팀, 그리고 dev-orchestrator·team-dev 스킬을 번들로 제공한다.",
+  "author": {
+    "name": "lvtlv",
+    "email": "lvtlast@gmail.com"
+  },
+  "keywords": [
+    "orchestration",
+    "planning",
+    "architecture",
+    "agents",
+    "team",
+    "pm"
+  ],
+  "license": "MIT"
+}
