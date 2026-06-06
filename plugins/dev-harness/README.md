@@ -13,10 +13,10 @@
 
 ```bash
 # 1) 로컬 마켓플레이스 등록 (이 디렉터리의 상위 = 마켓플레이스 루트)
-claude plugin marketplace add C:\Users\lvtlv\dev-harness-marketplace
+claude plugin marketplace add https://github.com/SimJaeSugn/marketplace.git
 
 # 2) 플러그인 설치 (모든 프로젝트에서 사용 가능 — user scope 기본)
-claude plugin install dev-harness@lvtlv-harness
+claude plugin install dev-harness@lvtlvt-harness
 
 # 3) 확인
 claude plugin list
