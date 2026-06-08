@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>dev-harness 진행 흐름 · 디렉토리 산출/참조 맵</title>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#1e293b; --ink:#e2e8f0; --muted:#94a3b8;
+    --read:#38bdf8; --write:#34d399; --flow:#64748b; --opt:#f59e0b;
+    --plan:#3b82f6; --design:#a855f7; --dev:#f97316; --final:#22c55e; --gray:#64748b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font-family:"Segoe UI","Malgun Gothic",system-ui,sans-serif;line-height:1.5}
+  header{padding:28px 32px 12px}
+  h1{margin:0 0 6px;font-size:24px}
+  .sub{color:var(--muted);font-size:14px;margin:0}
+  .wrap{padding:8px 24px 48px;max-width:1240px;margin:0 auto}
+  .legend{display:flex;flex-wrap:wrap;gap:18px;margin:16px 0 8px;font-size:13px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .swatch{width:26px;height:0;border-top-width:3px;border-top-style:solid;display:inline-block}
+  .dot{width:13px;height:13px;border-radius:3px;display:inline-block}
+  .diagram{background:var(--panel);border-radius:14px;padding:8px;overflow-x:auto;
+           box-shadow:0 8px 30px rgba(0,0,0,.35)}
+  svg{display:block;min-width:1100px}
+  h2{font-size:18px;margin:34px 0 12px;border-left:4px solid var(--write);padding-left:10px}
+  .steps{display:flex;flex-direction:column;gap:13px}
+  .step{background:var(--panel);border:1px solid #334155;border-left:5px solid var(--gray);
+        border-radius:12px;padding:14px 18px}
+  .step h3{margin:0;font-size:15.5px;display:flex;align-items:center;gap:9px}
+  .step .badge{min-width:34px;padding:2px 8px;border-radius:7px;background:#0b1220;color:#cbd5e1;
+        font-size:12px;font-weight:700;text-align:center}
+  .step .role{color:var(--muted);font-size:12.5px;margin:6px 0 0}
+  .step ul{margin:8px 0 0;padding-left:20px;font-size:13.5px;color:#dbe3ee}
+  .step li{margin:4px 0}
+  .step .io{margin-top:10px;padding-top:9px;border-top:1px dashed #334155;font-size:12.8px;
+        display:flex;flex-direction:column;gap:3px}
+  .step .io b{font-weight:700;margin-right:6px}
+  .io .r{color:var(--read)} .io .w{color:var(--write)}
+  .step code{color:#fcd34d;background:#0b1220;padding:1px 5px;border-radius:5px;font-size:12px}
+  .s-plan{border-left-color:var(--plan)} .s-design{border-left-color:var(--design)}
+  .s-dev{border-left-color:var(--dev)} .s-final{border-left-color:var(--final)}
+  .s-hand{border-left-color:#06b6d4} .s-opt{border-left-color:var(--opt)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--panel);
+        border-radius:12px;overflow:hidden}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #334155;vertical-align:top}
+  th{background:#273449;color:#cbd5e1;font-weight:600}
+  td code{color:#fcd34d;background:#0b1220;padding:1px 6px;border-radius:5px;font-size:12.5px}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600}
+  .tag-out{background:rgba(52,211,153,.16);color:var(--write)}
+  .note{background:#172033;border:1px solid #334155;border-radius:10px;padding:12px 16px;
+        font-size:13px;color:#cbd5e1;margin-top:18px}
+  .note b{color:#fcd34d}
+  footer{color:var(--muted);font-size:12.5px;margin-top:18px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🧭 dev-harness — 진행 흐름 &amp; 디렉토리 산출/참조 맵</h1>
+  <p class="sub">기본판 하네스. 기획 → 설계 → 구현 파이프라인의 각 단계가 <b>어떤 디렉토리를 참조(read)</b>하고
+  <b>어떤 산출물을 생성(write)</b>하는지 시각화. (강화판은 <code>dev-harness-plus-flow.html</code> 참고)</p>
+</header>
+
+<div class="wrap">
+  <div class="legend">
+    <span><i class="swatch" style="border-top-color:var(--read);border-top-style:dashed"></i> 참조(read)</span>
+    <span><i class="dot" style="background:var(--write)"></i> 산출(write)</span>
+    <span><i class="swatch" style="border-top-color:var(--flow)"></i> 진행 흐름</span>
+    <span><i class="swatch" style="border-top-color:var(--opt);border-top-style:dashed"></i> 선택(필요 시)</span>
+    <span><i class="dot" style="background:var(--plan)"></i> 기획</span>
+    <span><i class="dot" style="background:var(--design)"></i> 설계</span>
+    <span><i class="dot" style="background:var(--dev)"></i> 구현</span>
+    <span><i class="dot" style="background:var(--final)"></i> 마무리</span>
+  </div>
+
+  <div class="diagram">
+  <svg viewBox="0 0 1180 1240" xmlns="http://www.w3.org/2000/svg" role="img"
+       aria-label="dev-harness 진행 흐름도">
+    <defs>
+      <marker id="aFlow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+        <path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/>
+      </marker>
+      <marker id="aOpt" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+        <path d="M0,0 L7,3 L0,6 Z" fill="#f59e0b"/>
+      </marker>
+      <style>
+        .card{fill:#0b1220;stroke:#334155;stroke-width:1.2}
+        .ttl{font:700 15px "Segoe UI","Malgun Gothic",sans-serif;fill:#f1f5f9}
+        .ag{font:500 12px "Segoe UI","Malgun Gothic",sans-serif;fill:#94a3b8}
+        .rd{font:600 12.5px "Segoe UI","Malgun Gothic",sans-serif;fill:#38bdf8}
+        .wr{font:600 12.5px "Segoe UI","Malgun Gothic",sans-serif;fill:#34d399}
+        .tx{font:400 12.5px "Segoe UI","Malgun Gothic",sans-serif;fill:#cbd5e1}
+        .pl{font:700 13px "Segoe UI","Malgun Gothic",sans-serif;fill:#e2e8f0}
+        .plx{font:400 11.8px "Segoe UI","Malgun Gothic",sans-serif;fill:#94a3b8}
+        .loop{font:600 11.5px "Segoe UI","Malgun Gothic",sans-serif;fill:#f97316}
+        .optt{font:700 12.5px "Segoe UI","Malgun Gothic",sans-serif;fill:#fcd34d}
+      </style>
+    </defs>
+
+    <!-- ===== 좌측: 구성 요약 패널 ===== -->
+    <rect x="40" y="300" width="252" height="252" rx="11" fill="#0b1220" stroke="#334155"/>
+    <text x="58" y="330" class="pl">📦 원본 dev-harness</text>
+    <text x="58" y="358" class="plx">• 에이전트 8종</text>
+    <text x="58" y="380" class="plx">• 스킬 2종</text>
+    <text x="58" y="398" class="plx">　(dev-orchestrator · team-dev)</text>
+    <text x="58" y="424" class="plx" fill="#cbd5e1">• 검증 방식 — 이중 검증</text>
+    <text x="58" y="444" class="plx">　reviewer (문서·계획)</text>
+    <text x="58" y="462" class="plx">　qa-engineer (동작)</text>
+    <text x="58" y="490" class="plx" fill="#f87171">• 입력 기준 폴더 없음</text>
+    <text x="58" y="510" class="plx" fill="#f87171">• 추적성 매트릭스 없음</text>
+    <text x="58" y="530" class="plx" fill="#f87171">• 보안 게이트 없음</text>
+    <text x="58" y="546" class="plx" fill="#64748b">　→ 강화 요소는 plus</text>
+
+    <!-- ===== 중앙: 진행 파이프라인 ===== -->
+    <g stroke="#64748b" stroke-width="2.2" fill="none" marker-end="url(#aFlow)">
+      <path d="M612,212 L612,262"/>
+      <path d="M612,374 L612,424"/>
+      <path d="M612,536 L612,586"/>
+      <path d="M612,646 L612,696"/>
+      <path d="M612,802 L612,852"/>
+      <path d="M612,1004 L612,1054"/>
+    </g>
+
+    <!-- P0 컨텍스트 확인 -->
+    <rect class="card" x="352" y="120" width="520" height="92" rx="11"/>
+    <rect x="352" y="120" width="6" height="92" rx="3" fill="#64748b"/>
+    <text x="372" y="146" class="ttl">Phase 0 · 컨텍스트 확인</text>
+    <text x="372" y="166" class="ag">담당: 메인 대화(PM) — 초기 / 부분 재실행 / 새 실행 판별</text>
+    <text x="372" y="190" class="rd">참조 ▸ <tspan class="tx">docs/** · 기존 산출물</tspan></text>
+    <text x="372" y="208" class="wr">산출 ▸ <tspan class="tx">(판별만 — 산출물 없음)</tspan></text>
+
+    <!-- P1 기획 -->
+    <rect class="card" x="352" y="264" width="520" height="110" rx="11"/>
+    <rect x="352" y="264" width="6" height="110" rx="3" fill="#3b82f6"/>
+    <text x="372" y="290" class="ttl" fill="#bfdbfe">Phase 1 · 기획</text>
+    <text x="372" y="310" class="ag">담당: product-planner → reviewer (생성→검증→반영)</text>
+    <text x="372" y="334" class="rd">참조 ▸ <tspan class="tx">기존 docs (있으면)</tspan></text>
+    <text x="372" y="354" class="wr">산출 ▸ <tspan class="tx">docs/ (PRD·기능명세·스토리) · docs/reviews/</tspan></text>
+
+    <!-- P2 설계 -->
+    <rect class="card" x="352" y="426" width="520" height="110" rx="11"/>
+    <rect x="352" y="426" width="6" height="110" rx="3" fill="#a855f7"/>
+    <text x="372" y="452" class="ttl" fill="#e9d5ff">Phase 2 · 아키텍처 설계</text>
+    <text x="372" y="472" class="ag">담당: chief-architect → reviewer (추적성·디렉토리·근거)</text>
+    <text x="372" y="496" class="rd">참조 ▸ <tspan class="tx">docs/ (기획)</tspan></text>
+    <text x="372" y="516" class="wr">산출 ▸ <tspan class="tx">docs/architecture/ (설계서·ADR·API 계약) · docs/reviews/</tspan></text>
+
+    <!-- P3 인계 -->
+    <rect class="card" x="352" y="588" width="520" height="58" rx="11"/>
+    <rect x="352" y="588" width="6" height="58" rx="3" fill="#06b6d4"/>
+    <text x="372" y="614" class="ttl" fill="#a5f3fc">Phase 3 · 개발 인계 (실행 모드 전환)</text>
+    <text x="372" y="634" class="ag">서브에이전트 파이프라인 → 에이전트 팀(team-dev) 으로 전환</text>
+
+    <!-- P4 로드맵 -->
+    <rect class="card" x="352" y="698" width="520" height="104" rx="11"/>
+    <rect x="352" y="698" width="6" height="104" rx="3" fill="#f97316"/>
+    <text x="372" y="724" class="ttl" fill="#fed7aa">Phase 4 · 개발 로드맵</text>
+    <text x="372" y="744" class="ag">담당: tech-lead → reviewer (설계 정합·단계 순서·완료기준)</text>
+    <text x="372" y="768" class="rd">참조 ▸ <tspan class="tx">docs/architecture/</tspan></text>
+    <text x="372" y="788" class="wr">산출 ▸ <tspan class="tx">docs/roadmap.md · docs/reviews/</tspan></text>
+
+    <!-- P5 단계별 구현 -->
+    <rect class="card" x="352" y="854" width="520" height="150" rx="11"/>
+    <rect x="352" y="854" width="6" height="150" rx="3" fill="#f97316"/>
+    <text x="372" y="880" class="ttl" fill="#fed7aa">Phase 5 · 단계별 구현 (이중 검증 루프)</text>
+    <text x="372" y="900" class="ag">세부계획→reviewer 검증→구현→qa 검증→반영. devops 골격 / back·front 병렬</text>
+    <text x="372" y="924" class="rd">참조 ▸ <tspan class="tx">docs/architecture/ (API 계약·모듈 경계)</tspan></text>
+    <text x="372" y="944" class="wr">산출 ▸ <tspan class="tx">소스 코드 · .env.example · docs/reviews/</tspan></text>
+    <text x="372" y="976" class="tx">계획 검증: reviewer　|　구현 검증: qa-engineer (경계면 교차 비교)</text>
+
+    <!-- P5 루프 표시 -->
+    <g fill="none" stroke="#f97316" stroke-width="1.8" marker-end="url(#aFlow)">
+      <path d="M876,972 C 928,942 928,876 882,856"/>
+    </g>
+    <text x="892" y="916" class="loop">각 단계</text>
+    <text x="892" y="930" class="loop">반복</text>
+
+    <!-- P6 전체 검증/마무리 -->
+    <rect class="card" x="352" y="1056" width="520" height="120" rx="11"/>
+    <rect x="352" y="1056" width="6" height="120" rx="3" fill="#22c55e"/>
+    <text x="372" y="1082" class="ttl" fill="#bbf7d0">Phase 6 · 전체 검증 → 최종 마무리</text>
+    <text x="372" y="1102" class="ag">qa-engineer(전체 빌드·시나리오) + reviewer(기획 수용 기준 추적성)</text>
+    <text x="372" y="1126" class="rd">참조 ▸ <tspan class="tx">전체 산출물 · docs/ (수용 기준)</tspan></text>
+    <text x="372" y="1146" class="wr">산출 ▸ <tspan class="tx">최종 보고 (소스 코드 확정) · 필요 시 TeamDelete</tspan></text>
+
+    <!-- ===== 우측: 선택 — 회의 주재 ===== -->
+    <rect x="912" y="452" width="232" height="78" rx="10" fill="#231a06" stroke="#f59e0b"
+          stroke-width="1.3" stroke-dasharray="5 4"/>
+    <text x="930" y="480" class="optt">⚖ 회의 주재 (필요 시)</text>
+    <text x="930" y="500" class="plx">기획·설계 충돌/합의 시</text>
+    <text x="930" y="518" class="wr">산출 ▸ <tspan class="tx">docs/pm/ (회의록)</tspan></text>
+    <g stroke="#f59e0b" stroke-width="1.6" stroke-dasharray="5 4" fill="none" marker-end="url(#aOpt)">
+      <path d="M872,491 L912,491"/>
+    </g>
+  </svg>
+  </div>
+
+  <h2>🔎 흐름 단계별 세부 설명</h2>
+  <div class="steps">
+
+    <div class="step">
+      <h3><span class="badge">P0</span>컨텍스트 확인</h3>
+      <p class="role">담당: 메인 대화(PM)</p>
+      <ul>
+        <li><code>docs/**</code> 와 기존 산출물을 훑어 <b>초기 실행 / 부분 재실행 / 새 실행</b>을 판별한다.</li>
+        <li>부분 재실행이면 해당 에이전트만 재호출하고, 새 실행이라도 기존 산출물은 보존(덮어쓰지 않음)한다.</li>
+        <li>목표·범위·우선순위가 불명확하면 위임 전에 <code>AskUserQuestion</code>으로 먼저 확인한다(추측 금지).</li>
+      </ul>
+      <div class="io"><span><b class="r">참조</b><code>docs/**</code> · 기존 산출물</span><span><b class="w">산출</b>없음 — 판별 단계</span></div>
+    </div>
+
+    <div class="step s-plan">
+      <h3><span class="badge">P1</span>기획</h3>
+      <p class="role">담당: product-planner (생성) → reviewer (검증)</p>
+      <ul>
+        <li>기존 자료를 확인한 뒤 PRD·기능명세·사용자 스토리·<b>측정 가능한 수용 기준</b>을 작성한다.</li>
+        <li><b>검증·반영</b> — reviewer가 기획 체크리스트(근거·수용기준·범위·가정/리스크·모순)로 검증 → FAIL이면 반영 항목과 함께 재호출(최대 2회).</li>
+        <li><b>통과 조건</b> — 전체 기능 목록·개발 범위 확정 → 설계로.</li>
+      </ul>
+      <div class="io"><span><b class="r">참조</b>기존 <code>docs/</code></span><span><b class="w">산출</b><code>docs/</code> (PRD·기능명세·스토리) · <code>docs/reviews/</code></span></div>
+    </div>
+
+    <div class="step s-design">
+      <h3><span class="badge">P2</span>아키텍처 설계</h3>
+      <p class="role">담당: chief-architect (생성) → reviewer (검증)</p>
+      <ul>
+        <li><code>docs/</code>(기획)을 입력으로 <b>시스템 아키텍처 + 소프트웨어 아키텍처(추상화) + 디렉토리 구조</b>와 ADR(결정 근거)을 설계한다. 핵심 결정은 대안 2~3개를 비교한다.</li>
+        <li><b>검증·반영</b> — reviewer가 기획 추적성·디렉토리 일관성·근거·과설계 여부를 검증 → 반영.</li>
+        <li><b>통과 조건</b> — 설계 확정 → 개발 인계로.</li>
+      </ul>
+      <div class="io"><span><b class="r">참조</b><code>docs/</code>(기획)</span><span><b class="w">산출</b><code>docs/architecture/</code> (설계서·ADR·API 계약) · <code>docs/reviews/</code></span></div>
+    </div>
+
+    <div class="step s-opt">
+      <h3><span class="badge">선택</span>회의 주재 (충돌·합의 필요 시)</h3>
+      <p class="role">담당: 메인 대화(PM) — 필요 시에만</p>
+      <ul>
+        <li>기획과 설계가 충돌하거나(요구 vs 기술 제약) 합의가 필요할 때, 쟁점·각 입장·결정 질문·평가 기준을 정리한다.</li>
+        <li>관점을 종합해 <b>결론 + 근거</b>를 <code>docs/pm/</code> 회의록으로 남긴다. 중대한 방향 결정은 <code>AskUserQuestion</code>으로 사용자에게 올린다.</li>
+      </ul>
+      <div class="io"><span><b class="w">산출</b><code>docs/pm/</code> (회의록)</span></div>
+    </div>
+
+    <div class="step s-hand">
+      <h3><span class="badge">P3</span>개발 인계 (실행 모드 전환)</h3>
+      <p class="role">담당: 메인 대화(PM)</p>
+      <ul>
+        <li>사용자에게 "설계 완료, 개발 시작" 의사를 확인한다.</li>
+        <li><b>실행 모드 전환</b> — 서브에이전트 파이프라인 → <b>에이전트 팀(team-dev)</b>. 세션당 팀은 1개만 활성화한다.</li>
+      </ul>
+      <div class="io"><span><b class="w">산출</b>없음 — 모드 전환 단계</span></div>
+    </div>
+
+    <div class="step s-dev">
+      <h3><span class="badge">P4</span>개발 로드맵</h3>
+      <p class="role">담당: tech-lead (생성) → reviewer (검증)</p>
+      <ul>
+        <li>설계의 모듈·의존성을 바탕으로 구현을 순서 있는 단계로 분해해 <code>docs/roadmap.md</code> 를 작성한다.</li>
+        <li><b>검증·반영</b> — reviewer가 설계 정합성·단계 순서·완료 기준을 검증 → 반영.</li>
+      </ul>
+      <div class="io"><span><b class="r">참조</b><code>docs/architecture/</code></span><span><b class="w">산출</b><code>docs/roadmap.md</code> · <code>docs/reviews/</code></span></div>
+    </div>
+
+    <div class="step s-dev">
+      <h3><span class="badge">P5</span>단계별 구현 (이중 검증 루프)</h3>
+      <p class="role">담당: tech-lead 주관 — devops · backend · frontend + qa</p>
+      <ul>
+        <li><b>계획→구현</b> — 세부 계획을 reviewer가 검증, 통과하면 devops 골격 → backend·frontend가 API 계약 합의 후 병렬 구현한다.</li>
+        <li><b>구현 검증</b> — qa-engineer가 "계획대로 됐는지" <b>경계면 교차 비교</b>·수용 기준으로 검증하고 버그를 리포트 → 반영.</li>
+        <li><b>통과 조건</b> — DoD 충족 시 tech-lead가 통합하고 다음 단계로. 단계당 최대 2회 반복 후 미해결은 PM에 보고.</li>
+      </ul>
+      <div class="io"><span><b class="r">참조</b><code>docs/architecture/</code> (API 계약·모듈 경계)</span><span><b class="w">산출</b>소스 코드 · <code>.env.example</code> · <code>docs/reviews/</code></span></div>
+    </div>
+
+    <div class="step s-final">
+      <h3><span class="badge">P6</span>전체 검증 → 최종 마무리</h3>
+      <p class="role">담당: qa-engineer + reviewer</p>
+      <ul>
+        <li><b>전체 통합 검증</b> — qa가 전체 빌드·실행·핵심 시나리오로 통합 정합성을 종합 검증하고, 동시에 reviewer가 <b>기획 수용 기준 전체</b>를 추적성 점검한다.</li>
+        <li>결함이 있으면 tech-lead가 해당 단계로 회부해 수정 → 재검증.</li>
+        <li><b>마무리</b> — 통과 시 산출물 경로·구현 요약·남은 리스크/후속 제안을 사용자에게 보고하고, 필요 시 팀을 정리(TeamDelete)한다.</li>
+      </ul>
+      <div class="io"><span><b class="r">참조</b>전체 산출물 · <code>docs/</code>(수용 기준)</span><span><b class="w">산출</b>최종 보고 (소스 코드 확정)</span></div>
+    </div>
+
+  </div>
+
+  <h2>📂 디렉토리 지도 (전체)</h2>
+  <table>
+    <thead>
+      <tr><th>디렉토리 / 파일</th><th>구분</th><th>역할</th><th>생성·갱신 단계</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>docs/</code></td><td><span class="tag tag-out">산출</span></td><td>기획 산출물 — PRD·기능명세·사용자 스토리</td><td>Phase 1</td></tr>
+      <tr><td><code>docs/architecture/</code></td><td><span class="tag tag-out">산출</span></td><td>설계 산출물 — 설계서·ADR·API 계약</td><td>Phase 2 (구현 중 계약 갱신)</td></tr>
+      <tr><td><code>docs/roadmap.md</code></td><td><span class="tag tag-out">산출</span></td><td>개발 로드맵 — 순서 있는 구현 단계</td><td>Phase 4</td></tr>
+      <tr><td><code>docs/reviews/</code></td><td><span class="tag tag-out">산출</span></td><td>검증 보고 — reviewer(문서·계획) · qa(동작) 결과</td><td>모든 검증 단계 (1·2·4·5·6)</td></tr>
+      <tr><td><code>docs/pm/</code></td><td><span class="tag tag-out">산출</span></td><td>PM 산출물 — 회의록·실행계획·진행보고</td><td>회의 주재(필요 시) / 보고</td></tr>
+      <tr><td><code>소스 코드 / .env.example</code></td><td><span class="tag tag-out">산출</span></td><td>실제 구현물 — 모듈·API·UI·골격</td><td>Phase 5</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <b>plus와의 차이</b> — 기본판은 <b>입력 기준 폴더(docs/Planning·Design·Development)</b>,
+    <b>추적성 매트릭스(docs/traceability.md)</b>, <b>코드베이스 감사·리스크 게이팅·적대적 검증·보안 게이트</b>,
+    그리고 <b>security-reviewer·code-reviewer·tech-writer·debugger</b> 전담 검증/지원 역할이 <b>없습니다</b>.
+    검증은 reviewer(문서·계획) + qa(동작) <b>이중 검증</b>으로만 이뤄집니다.
+  </div>
+
+  <footer>
+    ※ 각 화살표(생성/검증/반영) 단위마다 reviewer·qa 검증→반영 루프가 돌며, 단계당 최대 2회 반복 후 미해결은 사용자에게 보고합니다.
+  </footer>
+</div>
+</body>
+</html>

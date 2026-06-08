@@ -44,7 +44,7 @@ claude plugin list
 - **구현 시작:** "설계 끝났으니 개발 시작", "개발팀 돌려줘" → `team-dev` 스킬 자동 발동
 - **재실행/부분 수정:** "기획만 다시", "설계만 다시", "보완해줘"
 
-산출물 경로: 기획 `docs/`, 설계 `docs/architecture/`, PM 산출물 `docs/pm/`, 검증 `docs/reviews/`, **추적성 매트릭스 `docs/traceability.md`**.
+산출물 경로: 기획 `docs/`, 설계 `docs/architecture/`, PM 산출물 `docs/pm/`, 검증 `docs/reviews/`, **추적성 매트릭스 `docs/traceability.md`**, **변경 이력 `docs/pm/change-log.md`**(기존 산출물 변경 시).
 
 ## 파트 기준 문서 (입력 룰·참고자료)
 
