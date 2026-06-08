@@ -44,7 +44,26 @@ claude plugin list
 - **구현 시작:** "설계 끝났으니 개발 시작", "개발팀 돌려줘" → `team-dev` 스킬 자동 발동
 - **재실행/부분 수정:** "기획만 다시", "설계만 다시", "보완해줘"
 
-산출물 경로: 기획 `docs/`, 설계 `docs/architecture/`, PM 산출물 `docs/pm/`, 검증 `docs/reviews/`, **추적성 매트릭스 `docs/traceability.md`**, **변경 이력 `docs/pm/change-log.md`**(기존 산출물 변경 시).
+산출물 경로: 기획 `docs/`, 설계 `docs/architecture/`, PM 산출물 `docs/pm/`, 검증 `docs/reviews/`, **추적성 매트릭스 `docs/traceability.html`**, **변경 이력 `docs/pm/change-log.html`**(기존 산출물 변경 시). 모든 문서 산출물은 **HTML**로 생성된다(아래 참조).
+
+## 산출물 형식 — HTML & 템플릿 (SVG 시각화)
+
+dev-harness-plus의 **모든 문서 산출물은 자족형(self-contained) `.html`** 로 생성된다(소스 코드는 제외).
+기획서·설계서·로드맵·검증 보고·추적성 매트릭스·변경 이력 등이 모두 HTML 파일이다.
+
+**스타일 결정 순서**
+1. **사용자 템플릿 우선** — 프로젝트의 **`docs/Templates/`** 에 해당 유형 템플릿(`*.html`)이 있으면 그 구조·스타일을 그대로 따른다.
+   - 예: `docs/Templates/prd.html`, `docs/Templates/architecture.html`, 공통 베이스 `docs/Templates/_base.html`
+2. **없으면 표준 스타일** — 이 플러그인의 진행 흐름맵(`docs/dev-harness-plus-flow.html`)과 동일한 **다크 테마**:
+   - 배경 `#0f172a` · 패널 `#1e293b` · 본문 `#e2e8f0` · 산출/강조 `#34d399` · 참조 `#38bdf8`
+   - 시스템 폰트(`"Segoe UI","Malgun Gothic"`), 헤더+카드/표 레이아웃, **인라인 CSS**(외부 의존 없음)
+
+**SVG를 적극 활용한다** — 아키텍처·데이터 흐름·관계·상태·비교·로드맵 타임라인 등 구조적인 내용은
+글 나열 대신 **`<svg>` 다이어그램**으로 시각화하고 범례를 넣는다. (추적성 같은 표 데이터는 `<table>`, 구조·흐름은 `<svg>`.)
+
+**베이스 템플릿 제공** — 표준 스타일의 참고 스켈레톤이 플러그인에 동봉돼 있다:
+[`templates/artifact-base.html`](templates/artifact-base.html). 이 파일을 프로젝트의 `docs/Templates/_base.html`로
+복사해 커스터마이즈하면, 이후 모든 산출물이 그 템플릿을 따른다.
 
 ## 파트 기준 문서 (입력 룰·참고자료)
 
@@ -72,7 +91,7 @@ claude plugin list
 - 설계 완료 후 구현 요청("개발 시작", "구현 진행") → `team-dev` 스킬
 - 변경 리스크로 트랙을 고른다(경량/표준/엄격). 고위험(인증·결제·개인정보·외부연동)은 엄격 트랙 + 보안 게이트.
 - 모든 산출 단계는 생성 → 검증(`reviewer`/`qa-engineer`/`code-reviewer`/`security-reviewer`) → 반영 루프를 거친다.
-- 요구→설계→구현→테스트를 `docs/traceability.md` 한 표로 추적한다.
+- 요구→설계→구현→테스트를 `docs/traceability.html` 한 표로 추적한다.
 ```
 
 ## 업데이트 / 재배포

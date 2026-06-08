@@ -66,3 +66,4 @@ model: opus
 ## 완료 시
 
 검증 결과(통과·실패·미검증 항목) + 발견 버그 목록을 `tech-lead`에게 보고한다.
+검증/테스트 보고를 파일로 남길 경우 자족형 HTML(`docs/reviews/`, 표준 다크 스타일·필요 시 SVG, 동봉 `templates/artifact-base.html` 참고)로 저장한다.

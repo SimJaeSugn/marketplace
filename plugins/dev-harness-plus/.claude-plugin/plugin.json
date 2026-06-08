@@ -1,8 +1,8 @@
 {
   "name": "dev-harness-plus",
   "displayName": "Dev Harness Plus — 강화된 기획→설계→구현 오케스트레이션",
-  "version": "1.0.0",
-  "description": "dev-harness의 강화판. 에이전트 12종(보안·코드리뷰·문서·디버깅 전담 추가)과 스킬 2종으로, Discovery·리스크 기반 게이팅·추적성 매트릭스·적대적 검증·보안 게이트·DoR/DoD를 갖춘 기획→설계→구현 자동 오케스트레이션 하네스.",
+  "version": "1.1.0",
+  "description": "dev-harness의 강화판. 에이전트 12종(보안·코드리뷰·문서·디버깅 전담 추가)과 스킬 2종으로, Discovery·리스크 기반 게이팅·추적성 매트릭스·적대적 검증·보안 게이트·DoR/DoD·변경 이력·파트 기준 문서를 갖춘 기획→설계→구현 자동 오케스트레이션 하네스. 모든 산출물은 HTML(SVG 시각화)로 생성.",
   "author": {
     "name": "lvtlv",
     "email": "lvtlast@gmail.com"
