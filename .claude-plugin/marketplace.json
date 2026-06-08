@@ -10,7 +10,6 @@
       "name": "dev-harness",
       "source": "./plugins/dev-harness",
       "description": "주제만 주면 기획→설계→구현을 자동 오케스트레이션하는 개발 하네스 (에이전트 8종 + 스킬 2종).",
-      "version": "1.0.0",
       "category": "developer-tools",
       "tags": ["orchestration", "planning", "architecture", "agents"]
     }
