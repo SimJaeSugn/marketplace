@@ -82,6 +82,21 @@ description: >
   **둘 다 PASS여야** 통과로 본다. 하나라도 FAIL이면 반영 후 재검증.
 - 관점을 분리해 지시한다(예: 1번은 추적성·완결성, 2번은 보안·실패 모드). 중복이 아니라 사각을 줄이는 게 목적.
 
+## 파트 기준 문서 규칙 (모든 위임의 공통 전제)
+
+각 파트는 **자기 파트의 기준 폴더**를 읽어 그 안의 참고자료·룰을 작업 기준으로 삼는다.
+
+| 파트 | 기준 폴더(입력) | 적용 역할 |
+|------|------------------|-----------|
+| 기획 | `docs/Planning/` | `product-planner` (+ 기획 검증 시 `reviewer`) |
+| 디자인 | `docs/Design/` | `chief-architect`, `frontend-dev` (+ 설계 검증 시 `reviewer`) |
+| 개발 | `docs/Development/` | `tech-lead`·`backend-dev`·`frontend-dev`·`devops-engineer`·`qa-engineer`·`code-reviewer`·`security-reviewer`·`debugger` |
+
+- **PM의 책임**: 에이전트는 격리돼 있으므로, 위임 지시에 **해당 파트 기준 폴더 경로**를 명시한다
+  (예: planner에 "`docs/Planning/`의 룰을 기준으로 삼아라"). 에이전트도 자체적으로 폴더를 확인한다.
+- **존재하지 않는 파트는 스스로 진행**: 폴더가 없거나 비어 있으면 외부 기준 없이 모범 사례로 진행시킨다(중단 금지).
+- **혼동 주의**: 이 폴더들은 *입력 기준 문서*다. *산출물* 저장 경로(`docs/`, `docs/architecture/`, 소스)는 기존 그대로.
+
 ## Phase 1: 업무 분해 · 지시
 
 1. 사용자 목표를 파악하고, 기존 `docs/` 자료를 읽어 현재 상태를 확인한다.
