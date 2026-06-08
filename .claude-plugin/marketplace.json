@@ -12,6 +12,13 @@
       "description": "주제만 주면 기획→설계→구현을 자동 오케스트레이션하는 개발 하네스 (에이전트 8종 + 스킬 2종).",
       "category": "developer-tools",
       "tags": ["orchestration", "planning", "architecture", "agents"]
+    },
+    {
+      "name": "dev-harness-plus",
+      "source": "./plugins/dev-harness-plus",
+      "description": "dev-harness 강화판 — 보안·코드리뷰·문서·디버깅 전담을 더한 에이전트 12종 + 스킬 2종. Discovery·리스크 게이팅·추적성 매트릭스·적대적 검증·보안 게이트 포함.",
+      "category": "developer-tools",
+      "tags": ["orchestration", "planning", "architecture", "agents", "security", "quality-gate"]
     }
   ]
 }
