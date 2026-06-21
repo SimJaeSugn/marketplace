@@ -5,9 +5,11 @@
   · 산출 경로(고정): docs/pm/progress.html  — 프로젝트의 단일 진입점(한눈에 보는 통합 현황).
   · 여러 문서에 흩어진 진행 정보를 한 페이지로 모은다: 기획→설계→구현→검증 전체 흐름 +
     각 단계 상태 · 검증 게이트 이력 · 산출물 인덱스.
-  · 유지 주체: PM(메인 대화). 추적성 매트릭스(traceability.html)와 같은 1급 산출물 위상.
-  · 갱신 규칙: 각 단계 생성/검증 게이트 통과·실패, 트랙 결정, 추적성 갱신, 단계 완료, 최종 보고 시
-    이 페이지를 함께 갱신한다. 새 산출물이 생기면 "산출물 인덱스"에 링크를 추가한다.
+  · 유지 주체: PM(메인 대화). 보고 시점에 tech-writer가 원천 문서에서 취합 생성하도록 위임 가능.
+  · 성격: 이 현황판은 *파생물*이다. 원천(reviews/·traceability.html·roadmap.html)을 복제하지 말고
+    요약 한 줄 + 링크로 가리킨다. 같은 사실을 두 곳에 손으로 적으면 drift(불일치)가 생긴다.
+  · 갱신 규칙: 마일스톤 단위로만 갱신한다 — 설계 확정 · 스프린트(s{N}) 완료 · 방향 전환 회의 · 최종 보고.
+    매 게이트·매 추적성 수정마다 손대지 않는다(그 변화는 원천 파일에만 반영). 새 산출물이 생기면 인덱스에 링크 추가.
   · 자족형 단일 HTML — 인라인 CSS, 외부 의존 없음. 모든 링크는 docs/pm/ 기준 상대경로.
   · 섹션 순서는 고정(아래 1~8). {{...}} 자리표시자는 실제 내용으로 채운다.
     해당 없는 행/카드는 비우지 말고 "—" 또는 "대기"로 명시한다(빈 칸 = 추적 누락 신호).
@@ -76,8 +78,9 @@
   <div class="panel">
     <svg viewBox="0 0 1000 120" width="100%" role="img" aria-label="진행 파이프라인">
       <line x1="90" y1="40" x2="910" y2="40" stroke="#334155" stroke-width="3"/>
-      <!-- 진행선: 완료 구간까지만 #34d399 로 덮어 그린다(x2를 현재 단계까지) -->
-      <line x1="90" y1="40" x2="{{완료까지의 x}}" y2="40" stroke="#34d399" stroke-width="3"/>
+      <!-- 진행선: 완료 구간까지만 #34d399 로 덮어 그린다. x2는 계산하지 말고 현재 단계의 노드 x를 그대로 쓴다(lookup):
+           기획 완료=90 · 설계 완료=370 · 구현 완료=650 · 검증 완료=910 -->
+      <line x1="90" y1="40" x2="370" y2="40" stroke="#34d399" stroke-width="3"/>
       <g font-family="Segoe UI" font-size="12.5" text-anchor="middle">
         <circle cx="90"  cy="40" r="13" fill="#064e3b" stroke="#34d399" stroke-width="2"/>
         <text x="90"  y="44" fill="#34d399" font-size="13" font-weight="700">✓</text>
@@ -102,28 +105,32 @@
     </svg>
   </div>
 
-  <!-- ④ 구현 단계별 현황 — 로드맵 S0~Sn. 로드맵 확정 전에는 "로드맵 미작성" 한 줄로 둔다 -->
+  <!-- ④ 구현 단계별 현황(요약) — 단계명 + 상태 배지만. 내용·담당·산출물 상세는 roadmap.html을 원천으로 링크
+       (로드맵 표를 통째로 복제하지 않는다). 로드맵 확정 전에는 "로드맵 미작성" 한 줄로 둔다 -->
   <h2>구현 단계별 현황 (로드맵 S0~Sn)</h2>
   <table>
-    <thead><tr><th>단계</th><th>내용</th><th>담당</th><th>핵심 산출물</th><th>상태</th></tr></thead>
+    <thead><tr><th>단계</th><th>요약</th><th>상태</th></tr></thead>
     <tbody>
-      <tr><td>S0</td><td>{{내용}}</td><td>{{담당}}</td><td><code>{{핵심 경로}}</code></td><td><span class="badge done">완료</span></td></tr>
-      <tr><td>S1</td><td>{{내용}}</td><td>{{담당}}</td><td><code>{{핵심 경로}}</code></td><td><span class="badge prog">진행</span></td></tr>
-      <tr><td>S2</td><td>{{내용}}</td><td>{{담당}}</td><td><code>{{핵심 경로}}</code></td><td><span class="badge m4">대기</span></td></tr>
+      <tr><td>S0</td><td>{{한 줄 요약}}</td><td><span class="badge done">완료</span></td></tr>
+      <tr><td>S1</td><td>{{한 줄 요약}}</td><td><span class="badge prog">진행</span></td></tr>
+      <tr><td>S2</td><td>{{한 줄 요약}}</td><td><span class="badge m4">대기</span></td></tr>
     </tbody>
   </table>
+  <p class="meta" style="margin-top:6px;">상세(내용·담당·핵심 산출물·타임라인): <span class="links"><a href="../roadmap.html">roadmap.html</a></span> (원천)</p>
 
-  <!-- ⑤ 검증 게이트 이력 — 생성→검증→반영 루프의 모든 게이트. 회차·결과·보고서 링크 -->
-  <h2>검증 게이트 이력</h2>
+  <!-- ⑤ 검증 게이트 현황(요약) — 단계별 "최신" 결과 배지 + reviews/ 보고서 링크만.
+       회차별 전체 이력은 현황판에 복제하지 않는다(이력의 원천은 reviews/ 파일들). "어디를 보면 되는지"만 가리킨다 -->
+  <h2>검증 게이트 현황</h2>
   <table>
-    <thead><tr><th>대상</th><th>검증자</th><th>회차</th><th>결과</th><th>보고서</th></tr></thead>
+    <thead><tr><th>대상</th><th>검증자</th><th>최신 결과</th><th>보고서(원천)</th></tr></thead>
     <tbody>
-      <tr><td>기획</td><td>reviewer</td><td>{{n회 (반영 경위)}}</td><td><span class="badge pass">PASS</span></td><td class="links"><a href="../reviews/planning_review_1.html">planning_review_1</a></td></tr>
-      <tr><td>아키텍처</td><td>reviewer</td><td>{{n회}}</td><td><span class="badge pend">진행/조건부</span></td><td class="links"><a href="../reviews/architecture_review_1.html">architecture_review_1</a></td></tr>
-      <tr><td>아키텍처 보안</td><td>security-reviewer</td><td>{{n회}}</td><td><span class="badge m4">대기</span></td><td>—</td></tr>
-      <!-- 구현 게이트는 스프린트별로 추가: code_review_s{N}_{n} · qa_s{N}_{n} · security_review_s{N}_{n} -->
+      <tr><td>기획</td><td>reviewer</td><td><span class="badge pass">PASS</span></td><td class="links"><a href="../reviews/planning_review_1.html">planning_review_*</a></td></tr>
+      <tr><td>아키텍처</td><td>reviewer</td><td><span class="badge pend">진행/조건부</span></td><td class="links"><a href="../reviews/architecture_review_1.html">architecture_review_*</a></td></tr>
+      <tr><td>아키텍처 보안</td><td>security-reviewer</td><td><span class="badge m4">대기</span></td><td>—</td></tr>
+      <!-- 구현 게이트는 스프린트별로 최신 결과만 추가: code_review_s{N}_* · qa_s{N}_* · security_review_s{N}_* -->
     </tbody>
   </table>
+  <p class="meta" style="margin-top:6px;">회차별 전체 이력: <span class="links"><a href="../reviews/">reviews/ 디렉터리</a></span> (원천)</p>
 
   <!-- ⑥ 요구 진척 — traceability.html 요약(진행바) + 상세 링크 -->
   <h2>요구 진척</h2>

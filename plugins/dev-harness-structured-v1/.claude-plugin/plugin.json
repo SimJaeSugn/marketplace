@@ -1,7 +1,7 @@
 {
   "name": "dev-harness-structured-v1",
   "displayName": "Dev Harness Structured v1 — 고정 산출물 구조 기획→설계→구현 오케스트레이션",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "dev-harness-plus 기반. 에이전트 12종 + 스킬 2종에 더해, 산출물의 디렉토리·파일명·명명 규칙·섹션 구조를 단일 출처로 고정해 어떤 프로젝트에서든 동일한 구조의 산출물을 생성한다. PRD/FeatureSpec/UserStories·architecture/adr·roadmap·traceability·reviews 명명 규칙 고정. 통합 진행 현황판(docs/pm/progress.html)을 단일 진입점으로 항상 생성·유지한다. 모든 문서는 HTML(SVG 시각화), 확정 API 계약만 docs/api-contract.md.",
   "author": {
     "name": "lvtlv",

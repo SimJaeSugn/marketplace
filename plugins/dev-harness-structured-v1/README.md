@@ -68,10 +68,12 @@ docs/
 ④ 구현 단계별 현황(로드맵 S0~Sn) ⑤ 검증 게이트 이력(PASS/FAIL·회차·보고서 링크) ⑥ 요구 진척(추적성 요약)
 ⑦ 남은 일·리스크 ⑧ 산출물 인덱스(모든 산출물 링크).
 
-**유지 규칙** — PM(메인 대화)이 유지하며, **추적성 매트릭스를 갱신할 때마다 함께 갱신**한다(기획 PASS 시 최초 생성 →
-각 단계 생성·검증 게이트·스프린트 완료·최종 보고 시 갱신). 기준은 `dev-orchestrator` 스킬의 "통합 진행 현황판 (progress.html)"
-절이 단일 출처이고, 구현 단계 갱신은 `team-dev` 스킬이 이어받는다. 스켈레톤 템플릿:
-[`templates/progress-dashboard.html`](templates/progress-dashboard.html)(`docs/Templates/progress.html`가 있으면 그쪽 우선).
+**유지 규칙(슬림)** — 현황판은 **파생물**이라 원천(`reviews/`·`traceability.html`·`roadmap.html`)을 복제하지 않고
+**요약 한 줄 + 링크**로 가리킨다. 갱신은 **마일스톤 단위로만**(기획 PASS 시 최초 생성 → 설계 확정 · 스프린트 완료 ·
+방향 전환 회의 · 최종 보고). 매 게이트·매 추적성 수정마다 손대지 않는다(수기 동기화 = 드리프트의 원인). 기준은
+`dev-orchestrator` 스킬의 "통합 진행 현황판 (progress.html)" 절이 단일 출처이고, 구현 단계 갱신은 `team-dev` 스킬이
+이어받는다. 스켈레톤 템플릿: [`templates/progress-dashboard.html`](templates/progress-dashboard.html)
+(`docs/Templates/progress.html`가 있으면 그쪽 우선).
 
 ## 설치 (한 번만)
 
@@ -122,8 +124,9 @@ claude plugin list
 **스타일 결정 순서**
 1. **사용자 템플릿 우선** — 프로젝트의 **`docs/Templates/`** 에 해당 유형 템플릿(`*.html`)이 있으면 그 구조·스타일을 그대로 따른다.
    - 예: `docs/Templates/prd.html`, `docs/Templates/architecture.html`, 공통 베이스 `docs/Templates/_base.html`
-2. **없으면 표준 스타일** — **다크 테마**: 배경 `#0f172a` · 패널 `#1e293b` · 본문 `#e2e8f0` · 산출/강조 `#34d399` · 참조 `#38bdf8`,
-   시스템 폰트(`"Segoe UI","Malgun Gothic"`), 헤더+카드/표 레이아웃, **인라인 CSS**(외부 의존 없음).
+2. **없으면 표준 스타일** — **색상 팔레트의 단일 출처는 [`templates/artifact-base.html`](templates/artifact-base.html)의 `:root` CSS 변수**다
+   (다크 테마·시스템 폰트 `"Segoe UI","Malgun Gothic"`·헤더+카드/표·**인라인 CSS**, 외부 의존 없음).
+   색상 hex 값을 산출물·에이전트 지시마다 다시 나열하지 말고 이 베이스 한 곳을 참조한다.
 
 **시각 요소 규칙** — 구조·흐름·타임라인·신뢰경계는 **`<svg>`**, 항목 나열은 **`<table>`**, 판정/등급/우선순위는
 **색상 배지**(PASS/FAIL·P1/P2/P3·치명/높음/중간/낮음), 정량 요약은 **카드/스코어카드**로 표현한다.
@@ -157,7 +160,7 @@ claude plugin list
 - 변경 리스크로 트랙을 고른다(경량/표준/엄격). 고위험(인증·결제·개인정보·외부연동)은 엄격 트랙 + 보안 게이트.
 - 모든 산출 단계는 생성 → 검증(`reviewer`/`qa-engineer`/`code-reviewer`/`security-reviewer`) → 반영 루프를 거친다.
 - 요구→설계→구현→테스트를 `docs/traceability.html` 한 표로 추적한다.
-- 전체 진행은 `docs/pm/progress.html`(통합 현황판·단일 진입점)을 항상 유지한다 — 추적성 갱신과 같은 턴에 갱신.
+- 전체 진행은 `docs/pm/progress.html`(통합 현황판·단일 진입점)을 유지한다 — 원천을 복제하지 말고 링크, 갱신은 마일스톤 단위(설계 확정·스프린트 완료·최종 보고).
 ```
 
 ## 업데이트 / 재배포

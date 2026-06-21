@@ -50,7 +50,7 @@ model: opus
 코드 리뷰 보고는 **`docs/reviews/code_review_s{스프린트}_{회차}.html`**(자족형 HTML)로 저장한다.
 `s{N}`=로드맵 스프린트 번호, `{회차}`(n)=반영 라운드. 예: `code_review_s7_1.html`. 파일명을 임의 작명하지 않는다
 (단일 출처: `dev-orchestrator`/`team-dev` 구조 명세).
-`docs/Templates/` 템플릿이 있으면 따르고, 없으면 표준 다크 스타일(인라인 CSS, 강조 `#34d399`·참조 `#38bdf8`).
+`docs/Templates/` 템플릿이 있으면 따르고, 없으면 동봉 `templates/artifact-base.html`의 `:root` CSS 변수(색상 팔레트 단일 출처)를 따른다(인라인 CSS).
 표준 섹션: 종합 판정(배지+스코어바: P1/P2/P3 건수·테스트) → 개선 항목 표(`# / 심각도 / 무엇(file:line) / 왜+권고`).
 항목은 표로, 관계·흐름이 필요하면 SVG로 시각화한다. 동봉 `templates/artifact-base.html` 참고.
 
