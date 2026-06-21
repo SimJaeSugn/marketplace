@@ -48,14 +48,30 @@ docs/
 │   ├── code_review_s{N}_{n}.html
 │   ├── qa_s{N}_{n}.html
 │   └── security_review_s{N}_{n}.html
-└── pm/                       # PM 산출물 (해당 상황에만)
-    ├── codebase-audit.html   # brownfield 감사
+└── pm/                       # PM 산출물
+    ├── progress.html         # 통합 진행 현황판 — 단일 진입점(항상 생성·유지) ★
+    ├── codebase-audit.html   # brownfield 감사 (해당 상황에만)
     ├── change-log.html       # 변경 이력(기존 산출물 변경 시)
     └── meeting-{주제}.html    # 회의록
 ```
 
 - `{n}` = 적대적/반영 회차(`_1`,`_2`…), `s{N}` = 로드맵 스프린트 번호(`s0`,`s1`…).
 - 입력 기준 폴더(`docs/Templates/`·`Planning/`·`Design/`·`Development/`)는 *산출물*과 별개의 *입력 룰* 폴더다.
+
+## 통합 진행 현황판 (`docs/pm/progress.html`) ★
+
+각 산출물은 자기 단계의 진행만 보여줄 뿐, **기획→설계→구현→검증 전체 흐름을 한눈에 보는 통합 현황**은
+흩어져 있어 파악이 어렵다. 이 플러그인은 **`docs/pm/progress.html`** 를 **항상 생성·유지하는 단일 진입점**으로
+두어, 전체 파이프라인과 각 단계 상태·검증 게이트·산출물을 **한 페이지**로 모은다(추적성 매트릭스와 동격 1급 산출물).
+
+**고정 섹션** — ① 헤더(현재 단계·다음·트랙) ② 핵심 지표(KPI, 게이트 기준값) ③ 파이프라인 SVG(기획→설계→구현→검증 노드 상태)
+④ 구현 단계별 현황(로드맵 S0~Sn) ⑤ 검증 게이트 이력(PASS/FAIL·회차·보고서 링크) ⑥ 요구 진척(추적성 요약)
+⑦ 남은 일·리스크 ⑧ 산출물 인덱스(모든 산출물 링크).
+
+**유지 규칙** — PM(메인 대화)이 유지하며, **추적성 매트릭스를 갱신할 때마다 함께 갱신**한다(기획 PASS 시 최초 생성 →
+각 단계 생성·검증 게이트·스프린트 완료·최종 보고 시 갱신). 기준은 `dev-orchestrator` 스킬의 "통합 진행 현황판 (progress.html)"
+절이 단일 출처이고, 구현 단계 갱신은 `team-dev` 스킬이 이어받는다. 스켈레톤 템플릿:
+[`templates/progress-dashboard.html`](templates/progress-dashboard.html)(`docs/Templates/progress.html`가 있으면 그쪽 우선).
 
 ## 설치 (한 번만)
 
@@ -114,6 +130,8 @@ claude plugin list
 
 **베이스 템플릿 제공** — 표준 스타일의 참고 스켈레톤이 동봉돼 있다: [`templates/artifact-base.html`](templates/artifact-base.html).
 이 파일을 프로젝트의 `docs/Templates/_base.html`로 복사해 커스터마이즈하면, 이후 모든 산출물이 그 템플릿을 따른다.
+통합 진행 현황판 전용 스켈레톤도 동봉돼 있다: [`templates/progress-dashboard.html`](templates/progress-dashboard.html)
+(→ `docs/pm/progress.html`로 산출. 커스터마이즈하려면 `docs/Templates/progress.html`로 복사).
 
 ## 파트 기준 문서 (입력 룰·참고자료)
 
@@ -139,6 +157,7 @@ claude plugin list
 - 변경 리스크로 트랙을 고른다(경량/표준/엄격). 고위험(인증·결제·개인정보·외부연동)은 엄격 트랙 + 보안 게이트.
 - 모든 산출 단계는 생성 → 검증(`reviewer`/`qa-engineer`/`code-reviewer`/`security-reviewer`) → 반영 루프를 거친다.
 - 요구→설계→구현→테스트를 `docs/traceability.html` 한 표로 추적한다.
+- 전체 진행은 `docs/pm/progress.html`(통합 현황판·단일 진입점)을 항상 유지한다 — 추적성 갱신과 같은 턴에 갱신.
 ```
 
 ## 업데이트 / 재배포
