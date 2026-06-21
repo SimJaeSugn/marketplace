@@ -19,6 +19,13 @@
       "description": "dev-harness 강화판 — 보안·코드리뷰·문서·디버깅 전담을 더한 에이전트 12종 + 스킬 2종. Discovery·리스크 게이팅·추적성 매트릭스·적대적 검증·보안 게이트 포함.",
       "category": "developer-tools",
       "tags": ["orchestration", "planning", "architecture", "agents", "security", "quality-gate"]
+    },
+    {
+      "name": "dev-harness-structured-v1",
+      "source": "./plugins/dev-harness-structured-v1",
+      "description": "dev-harness-plus 기반 + 산출물 구조 고정판 — 디렉토리·파일명·명명 규칙·섹션 구조를 단일 출처로 명시해 어떤 프로젝트에서든 동일한 구조의 산출물을 생성한다. 에이전트 12종 + 스킬 2종.",
+      "category": "developer-tools",
+      "tags": ["orchestration", "planning", "architecture", "agents", "security", "quality-gate", "structured-output"]
     }
   ]
 }

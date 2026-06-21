@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--
+  dev-harness-structured-v1 · 산출물 기본 템플릿 (artifact-base)
+  ────────────────────────────────────────────────────────────
+  · 모든 문서 산출물의 폴백 스타일. docs/Templates/ 에 사용자 템플릿이 없을 때 이 스타일을 따른다.
+  · 자족형(self-contained) 단일 HTML — 인라인 CSS, 외부 의존 없음.
+  · 구조·흐름·관계·비교·상태·타임라인은 <svg> 로 시각화하고 범례를 넣는다. (표는 <table>)
+  · 사용법: 이 파일을 docs/Templates/_base.html 로 복사해 프로젝트에 맞게 커스터마이즈할 수 있다.
+  · {{...}} 자리표시자는 산출물 작성 시 실제 내용으로 채운다.
+-->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{문서 제목}}</title>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#1e293b; --ink:#e2e8f0; --muted:#94a3b8;
+    --accent:#34d399;            /* 산출/강조 */
+    --read:#38bdf8;              /* 참조/입력 */
+    --warn:#f59e0b; --bad:#f87171;
+    --plan:#3b82f6; --design:#a855f7; --dev:#f97316; --final:#22c55e; --gray:#64748b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font-family:"Segoe UI","Malgun Gothic",system-ui,sans-serif;line-height:1.6}
+  header{padding:28px 32px 12px}
+  h1{margin:0 0 6px;font-size:24px}
+  .sub{color:var(--muted);font-size:14px;margin:0}
+  .meta{color:var(--muted);font-size:12.5px;margin-top:8px}
+  .wrap{padding:8px 24px 48px;max-width:1240px;margin:0 auto}
+  h2{font-size:18px;margin:32px 0 12px;border-left:4px solid var(--accent);padding-left:10px}
+  h3{font-size:15.5px;margin:18px 0 8px}
+  p,li{font-size:14px}
+  .panel{background:var(--panel);border:1px solid #334155;border-radius:12px;padding:16px 18px;margin:12px 0}
+  .diagram{background:var(--panel);border-radius:14px;padding:10px;overflow-x:auto;
+           box-shadow:0 8px 30px rgba(0,0,0,.35)}
+  svg{display:block}
+  .legend{display:flex;flex-wrap:wrap;gap:16px;margin:12px 0;font-size:13px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .dot{width:13px;height:13px;border-radius:3px;display:inline-block}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--panel);
+        border-radius:12px;overflow:hidden;margin:12px 0}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #334155;vertical-align:top}
+  th{background:#273449;color:#cbd5e1;font-weight:600}
+  code{color:#fcd34d;background:#0b1220;padding:1px 6px;border-radius:5px;font-size:12.5px}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600}
+  .tag-in{background:rgba(56,189,248,.16);color:var(--read)}
+  .tag-out{background:rgba(52,211,153,.16);color:var(--accent)}
+  footer{color:var(--muted);font-size:12.5px;margin-top:24px;border-top:1px solid #334155;padding-top:12px}
+</style>
+</head>
+<body>
+<header>
+  <h1>{{문서 제목}}</h1>
+  <p class="sub">{{한 줄 요약 — 무엇을, 누구를 위해, 왜}}</p>
+  <p class="meta">산출물 유형: {{기획서/설계서/로드맵/검증보고/…}} · 작성: {{YYYY-MM-DD}} · 단계/회차: {{Phase N · 회차}}</p>
+</header>
+
+<div class="wrap">
+
+  <h2>개요</h2>
+  <div class="panel">{{개요 내용}}</div>
+
+  <!-- ▼ 구조·흐름·관계·비교는 SVG로 시각화 (예시 — 실제 내용으로 교체) -->
+  <h2>구조 / 흐름 (SVG)</h2>
+  <div class="legend">
+    <span><i class="dot" style="background:var(--read)"></i> 입력/참조</span>
+    <span><i class="dot" style="background:var(--accent)"></i> 산출/결과</span>
+    <span><i class="dot" style="background:var(--gray)"></i> 흐름</span>
+  </div>
+  <div class="diagram">
+    <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="{{다이어그램 설명}}">
+      <defs>
+        <marker id="arr" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/>
+        </marker>
+      </defs>
+      <rect x="40"  y="70" width="170" height="60" rx="10" fill="#0b1220" stroke="#38bdf8"/>
+      <text x="125" y="105" fill="#e2e8f0" font-size="14" text-anchor="middle">{{입력}}</text>
+      <rect x="275" y="70" width="170" height="60" rx="10" fill="#0b1220" stroke="#64748b"/>
+      <text x="360" y="105" fill="#e2e8f0" font-size="14" text-anchor="middle">{{처리/단계}}</text>
+      <rect x="510" y="70" width="170" height="60" rx="10" fill="#0b1220" stroke="#34d399"/>
+      <text x="595" y="105" fill="#e2e8f0" font-size="14" text-anchor="middle">{{산출}}</text>
+      <g stroke="#64748b" stroke-width="2.2" fill="none" marker-end="url(#arr)">
+        <path d="M210,100 L271,100"/>
+        <path d="M445,100 L506,100"/>
+      </g>
+    </svg>
+  </div>
+
+  <h2>상세 내용</h2>
+  <div class="panel">{{본문 — 표·목록·다이어그램으로 구성. 단순 나열보다 시각화 우선}}</div>
+
+  <!-- 표 예시 (추적성·비교·체크리스트 등) -->
+  <h2>표 (해당 시)</h2>
+  <table>
+    <thead><tr><th>{{항목}}</th><th>구분</th><th>{{내용}}</th></tr></thead>
+    <tbody>
+      <tr><td>{{…}}</td><td><span class="tag tag-in">입력</span></td><td>{{…}}</td></tr>
+      <tr><td>{{…}}</td><td><span class="tag tag-out">산출</span></td><td>{{…}}</td></tr>
+    </tbody>
+  </table>
+
+  <footer>{{가정·리스크·미해결 질문·참고 링크 등}}</footer>
+</div>
+</body>
+</html>

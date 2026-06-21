@@ -25,14 +25,30 @@
 # 1) 마켓플레이스 등록 (저장소를 직접 연결)
 claude plugin marketplace add https://github.com/SimJaeSugn/marketplace.git
 
-# 2) 플러그인 설치 (모든 프로젝트에서 사용 가능 — user scope 기본)
-claude plugin install dev-harness-plus@lvtlvt-harness
+# 2) 플러그인 설치 — --scope로 설치 위치 선택 (생략 시 user)
+claude plugin install dev-harness-plus@lvtlvt-harness                  # user(기본): 내 모든 프로젝트
+claude plugin install dev-harness-plus@lvtlvt-harness --scope project  # 이 저장소 팀 공유(.claude/settings.json, 커밋)
+claude plugin install dev-harness-plus@lvtlvt-harness --scope local    # 이 저장소에서 나만(.claude/settings.local.json)
 
 # 3) 확인
 claude plugin list
 ```
 
 설치 후 아무 프로젝트에서나 에이전트(`product-planner` 등)와 스킬(`/dev-harness-plus:dev-orchestrator`)이 노출된다.
+
+### 설치 scope (`--scope`)
+
+`--scope`로 플러그인을 어디에 설치(활성화)할지 고른다. **생략하면 user**다.
+
+| scope | 명령 | 기록 위치 | 효과 |
+|-------|------|-----------|------|
+| **user** (기본) | `--scope user` | `~/.claude/settings.json` | 내 **모든 프로젝트**에서 사용 |
+| **project** | `--scope project` | `.claude/settings.json` (git 커밋됨) | 이 저장소를 받는 **팀원 모두** 사용 |
+| **local** | `--scope local` | `.claude/settings.local.json` (gitignore) | 이 저장소에서 **나만** 사용 |
+
+> 설치하면 해당 scope의 `enabledPlugins`에 등록된다. 제거 없이 잠깐 끄려면
+> `claude plugin disable dev-harness-plus@lvtlvt-harness --scope <scope>`, 다시 켜려면 `claude plugin enable ...`.
+> (관리자가 서버 설정으로 강제하는 `managed` scope도 있으나 사용자가 설치하는 대상은 아니다.)
 
 > **원본과의 공존 주의.** `dev-harness`와 `dev-harness-plus`를 **동시에 설치하면** 스킬 자동 발동
 > 트리거가 겹쳐 어느 쪽이 뜰지 모호해진다. 둘 중 하나만 활성화해 쓰기를 권장한다.
