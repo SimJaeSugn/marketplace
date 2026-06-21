@@ -31,15 +31,14 @@ model: opus
 3. **증거로 확인한다.** 추측하지 말고 `Grep`/`Read`로 실제 코드·설정을 확인하고,
    가능하면 `Bash`로 의존성 취약점(`npm audit`, `pip-audit` 등)·시크릿 스캔을 실제 실행한다.
 4. **등급을 매긴다.** 각 발견에 심각도(치명/높음/보통/낮음)와 악용 가능성을 부여한다.
-5. **결과를 `docs/reviews/`에 고정 명명 규칙으로 저장한다** (자족형 HTML — 아래 형식 규칙):
-   - **설계 단계 위협 모델링**: `architecture_security_review_{회차}.html` (예: `architecture_security_review_1.html`).
-   - **구현 단계 보안 게이트**: `security_review_s{스프린트}_{회차}.html` (예: `security_review_s7_1.html`). `s{N}`=로드맵 스프린트 번호.
+5. **결과를 `docs/reviews/`에 고정 명명 규칙으로 저장한다** (마크다운 — 아래 형식 규칙):
+   - **설계 단계 위협 모델링**: `architecture_security_review_{회차}.md` (예: `architecture_security_review_1.md`).
+   - **구현 단계 보안 게이트**: `security_review_s{스프린트}_{회차}.md` (예: `security_review_s7_1.md`). `s{N}`=로드맵 스프린트 번호.
    - `{회차}`(n)는 적대적/반영 라운드(`_1`,`_2`…). 파일명을 임의 작명하지 않는다(단일 출처: `dev-orchestrator` 구조 명세).
    - 표준 섹션: 종합 판정(스코어카드: 치명/높음/중간/낮음) → 위협 모델링(STRIDE, 자산/신뢰경계 표) → 통제별 상세 → 이행 권고(P1/P2/P3).
 
-> **산출 형식(HTML)**: 보안 보고도 `.html`로 쓴다. `docs/Templates/`에 템플릿이 있으면 따르고, 없으면 동봉
-> `templates/artifact-base.html`의 `:root` CSS 변수(색상 팔레트 단일 출처)를 따른다(인라인 CSS). 발견 항목은 표(심각도별)로,
-> 신뢰 경계·데이터 흐름은 **SVG**로 시각화한다.
+> **산출 형식(Markdown)**: 보안 보고도 `.md`로 쓴다. `docs/Templates/`에 마크다운 템플릿이 있으면 따른다. 심각도는
+> **텍스트 배지**(`[치명]`/`[높음]`/`[중간]`/`[낮음]`), 발견 항목은 마크다운 표(심각도별)로, 신뢰 경계·데이터 흐름은 **Mermaid**로 시각화한다.
 
 # 점검 체크리스트
 

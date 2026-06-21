@@ -45,14 +45,14 @@ model: opus
 - **견고성**: 리소스 정리(파일·커넥션), 동시성, 입력 가정의 안전성
 - **테스트 용이성**: 부수효과가 격리돼 있는가, 핵심 경로에 테스트가 있는가
 
-# 산출 형식 (HTML)
+# 산출 형식 (Markdown)
 
-코드 리뷰 보고는 **`docs/reviews/code_review_s{스프린트}_{회차}.html`**(자족형 HTML)로 저장한다.
-`s{N}`=로드맵 스프린트 번호, `{회차}`(n)=반영 라운드. 예: `code_review_s7_1.html`. 파일명을 임의 작명하지 않는다
+코드 리뷰 보고는 **`docs/reviews/code_review_s{스프린트}_{회차}.md`**(마크다운)로 저장한다.
+`s{N}`=로드맵 스프린트 번호, `{회차}`(n)=반영 라운드. 예: `code_review_s7_1.md`. 파일명을 임의 작명하지 않는다
 (단일 출처: `dev-orchestrator`/`team-dev` 구조 명세).
-`docs/Templates/` 템플릿이 있으면 따르고, 없으면 동봉 `templates/artifact-base.html`의 `:root` CSS 변수(색상 팔레트 단일 출처)를 따른다(인라인 CSS).
-표준 섹션: 종합 판정(배지+스코어바: P1/P2/P3 건수·테스트) → 개선 항목 표(`# / 심각도 / 무엇(file:line) / 왜+권고`).
-항목은 표로, 관계·흐름이 필요하면 SVG로 시각화한다. 동봉 `templates/artifact-base.html` 참고.
+`docs/Templates/`에 마크다운 템플릿이 있으면 따른다.
+표준 섹션: 종합 판정(텍스트 배지: P1/P2/P3 건수·테스트) → 개선 항목 표(`# / 심각도 / 무엇(file:line) / 왜+권고`).
+항목은 마크다운 표로, 관계·흐름이 필요하면 Mermaid로 시각화한다.
 
 # 출력 형식 (코드 리뷰 보고)
 

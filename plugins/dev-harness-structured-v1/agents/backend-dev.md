@@ -25,7 +25,7 @@ model: opus
 1. 시작 시 `docs/architecture/`의 데이터 설계·API 계약 초안·기술 스택과, 있으면 `docs/api-contract.md`(확정 계약)를 읽는다.
 2. `team-dev` 스킬의 코딩 표준·완료 기준을 따른다. 기존 코드 구조·컨벤션에 맞춘다.
 3. **API 계약을 명확히 공개한다.** 엔드포인트·요청/응답 shape·에러 형식을 정하면 `frontend-dev`에게
-   `SendMessage`로 통지하고, **확정 계약을 `docs/api-contract.md`**(FE↔BE 단일 출처, 유일한 `.md`)에 기록한다.
+   `SendMessage`로 통지하고, **확정 계약을 `docs/api-contract.md`**(FE↔BE 코드 대조용 확정 계약 단일 출처)에 기록한다.
    변경은 `tech-lead` 중재·양측 통지 후에만(임의 변경 금지). 파일명을 임의 작명하지 않는다.
 4. 입력 검증·에러 처리·보안(인증/인가)을 빠뜨리지 않는다. 작업 단위마다 동작을 검증한다.
 

@@ -30,13 +30,13 @@ description: >
 
 | 산출물 | 고정 경로 | 담당 | 비고 |
 |--------|-----------|------|------|
-| 개발 로드맵 | `docs/roadmap.html` | `tech-lead` | 단계를 `S0`,`S1`… 으로 번호화. 타임라인은 SVG |
-| 확정 API 계약 | `docs/api-contract.md` | `tech-lead` 중재 / `backend-dev` | **유일한 `.md`** — FE↔BE 단일 출처. 보통 API 계약 합의 스프린트(예: `S4` 게이트)에서 확정 |
-| 코드 품질 검증 | `docs/reviews/code_review_s{N}_{n}.html` | `code-reviewer` | `{N}`=스프린트, `{n}`=회차 |
-| 동작·통합 QA | `docs/reviews/qa_s{N}_{n}.html` | `qa-engineer` | 〃 |
-| 보안 게이트 | `docs/reviews/security_review_s{N}_{n}.html` | `security-reviewer` | 〃 |
-| 계획·로드맵 검증 | `docs/reviews/roadmap_review_{n}.html` | `reviewer` | 로드맵 독립 검증 |
-| 변경 이력 | `docs/pm/change-log.html` | `tech-lead`/`tech-writer` | 기존 산출물 변경 시 |
+| 개발 로드맵 | `docs/roadmap.md` | `tech-lead` | 단계를 `S0`,`S1`… 으로 번호화. 타임라인은 Mermaid(`gantt`) |
+| 확정 API 계약 | `docs/api-contract.md` | `tech-lead` 중재 / `backend-dev` | FE↔BE 코드 대조용 **확정 계약 단일 출처**. 보통 API 계약 합의 스프린트(예: `S4` 게이트)에서 확정 |
+| 코드 품질 검증 | `docs/reviews/code_review_s{N}_{n}.md` | `code-reviewer` | `{N}`=스프린트, `{n}`=회차 |
+| 동작·통합 QA | `docs/reviews/qa_s{N}_{n}.md` | `qa-engineer` | 〃 |
+| 보안 게이트 | `docs/reviews/security_review_s{N}_{n}.md` | `security-reviewer` | 〃 |
+| 계획·로드맵 검증 | `docs/reviews/roadmap_review_{n}.md` | `reviewer` | 로드맵 독립 검증 |
+| 변경 이력 | `docs/pm/change-log.md` | `tech-lead`/`tech-writer` | 기존 산출물 변경 시 |
 | **통합 진행 현황판** | `docs/pm/progress.html` | **PM(메인 대화)** | 단일 진입점. 기획~설계에서 생성된 현황판을 구현 단계에서 **이어서 갱신**(아래 규칙) |
 
 - 각 스프린트(로드맵 단계) 검증은 **항상 `s{N}` 번호**를 붙여 어느 단계의 검증인지 식별한다.
@@ -76,7 +76,7 @@ description: >
 
 ### Phase 2: 개발 로드맵 (생성→검증→반영)
 - `tech-lead`에게 설계 경로(`docs/architecture/`)와 구현 목표·범위를 전달한다.
-- `tech-lead`가 설계의 모듈·의존성을 바탕으로 **개발 로드맵**(`docs/roadmap.html`)을 작성한다 — 순서 있는 단계로 분해.
+- `tech-lead`가 설계의 모듈·의존성을 바탕으로 **개발 로드맵**(`docs/roadmap.md`)을 작성한다 — 순서 있는 단계로 분해.
 - `reviewer`로 로드맵을 검증하고 반영한다(설계 정합성·단계 순서·완료 기준). PASS 후 Phase 3로.
 - **현황판 갱신**: 로드맵 확정·검증 통과 시 `docs/pm/progress.html`의 "구현 단계별 현황(S0~Sn)" 표를 로드맵 단계로 채우고(전부 "대기"로 시작), 파이프라인 "구현" 노드를 진행으로, 로드맵 게이트를 검증 이력에 추가한다.
 
@@ -110,12 +110,12 @@ description: >
 모든 로드맵 단계가 끝나면, 단계별 점진 검증과 별개로 **전체 통합 검증**을 한 번 더 거친다 (병렬).
 1. **전체 검증(병렬)**:
    - `qa-engineer` — 전체 빌드·실행·핵심 시나리오로 통합 정합성을 종합 검증.
-   - `reviewer` — 최종 산출물이 **기획 수용 기준 전체**를 충족하는지 + `docs/traceability.html`에 빈 칸이 없는지 추적성 점검.
+   - `reviewer` — 최종 산출물이 **기획 수용 기준 전체**를 충족하는지 + `docs/traceability.md`에 빈 칸이 없는지 추적성 점검.
    - `security-reviewer` — 보안 게이트 최종 점검(의존성 취약점·시크릿·인가). 고위험 프로젝트면 필수.
    - (선택) `code-reviewer` — 전체 코드 품질 최종 스윕.
 2. **반영**: 결함이 있으면 `tech-lead`가 해당 단계로 회부해 수정 → 재검증.
 3. **문서화(필요 시)**: 사용자/개발자가 쓸 문서가 필요하면 `tech-writer`로 README·사용 가이드를 코드와 동기화해 작성한다.
-4. **최종 마무리**: 전체 검증 통과 시 `docs/pm/progress.html`을 최종 마감한다 — 파이프라인 4노드 모두 완료, 현재 단계 배지를 "구현 완료·검증 통과", KPI·게이트 이력·요구 진척 100% 확인·산출물 인덱스를 최신화. 이어 산출물 경로 + 구현 요약 + 추적성 매트릭스 상태 + (기존 코드 변경 시) `docs/pm/change-log.html` 이력 요약 + 남은 리스크/후속 제안을, **현황판(`docs/pm/progress.html`)을 단일 진입점으로** 가리켜 사용자에게 보고한다.
+4. **최종 마무리**: 전체 검증 통과 시 `docs/pm/progress.html`을 최종 마감한다 — 파이프라인 4노드 모두 완료, 현재 단계 배지를 "구현 완료·검증 통과", KPI·게이트 이력·요구 진척 100% 확인·산출물 인덱스를 최신화. 이어 산출물 경로 + 구현 요약 + 추적성 매트릭스 상태 + (기존 코드 변경 시) `docs/pm/change-log.md` 이력 요약 + 남은 리스크/후속 제안을, **현황판(`docs/pm/progress.html`)을 단일 진입점으로** 가리켜 사용자에게 보고한다.
 5. 필요 시 팀을 정리(`TeamDelete`)하고, 다음 작업(추가 기능, 배포 등)을 제안한다.
 
 ## B. 공유 개발 규칙 (개발자 에이전트 공통)
@@ -134,7 +134,7 @@ description: >
 
 ### 인터페이스 규칙
 - 프론트·백엔드 경계의 API 계약(엔드포인트·요청/응답 shape·에러 형식)은 **추측하지 않고 합의**한다.
-- 계약이 정해지거나 바뀌면 즉시 상대에게 `SendMessage`로 통지하고 **`docs/api-contract.md`**(확정 계약 단일 출처, 유일한 `.md`)에 기록한다. 변경은 `tech-lead` 중재·양측 통지 후에만.
+- 계약이 정해지거나 바뀌면 즉시 상대에게 `SendMessage`로 통지하고 **`docs/api-contract.md`**(FE↔BE 코드 대조용 확정 계약 단일 출처)에 기록한다. 변경은 `tech-lead` 중재·양측 통지 후에만.
 
 ### 착수 기준 (Definition of Ready)
 한 태스크는 다음이 갖춰져야 **시작**할 수 있다 (없으면 먼저 채운다):
@@ -155,9 +155,9 @@ description: >
 
 ### 변경 이력 기록 (기존 코드가 있을 때)
 - 기존 코드/산출물이 있는 상태에서 기능을 **추가·수정·삭제**하면, 그 변경이 확정된 직후
-  **`docs/pm/change-log.html`** 에 이력을 기록한다(최신이 위로). 형식: 날짜·회차·유형·대상(기능/요구 ID)·내용·사유·영향 산출물.
+  **`docs/pm/change-log.md`** 에 이력을 기록한다(최신이 위로). 형식: 날짜·회차·유형·대상(기능/요구 ID)·내용·사유·영향 산출물.
 - **삭제는 사유를 반드시 남긴다.** 코드를 무단 삭제하지 말고 결정과 근거를 이력에 남긴다.
-- 변경된 요구 ID는 `docs/traceability.html` 행 상태도 함께 갱신한다. 기록은 `tech-lead`가 하거나 `tech-writer`에 위임한다.
+- 변경된 요구 ID는 `docs/traceability.md` 행 상태도 함께 갱신한다. 기록은 `tech-lead`가 하거나 `tech-writer`에 위임한다.
 
 ### 소통 프로토콜 (요약)
 - 진행/완료/블로커는 `tech-lead`에게 보고하고 `TaskUpdate`로 상태를 갱신한다.

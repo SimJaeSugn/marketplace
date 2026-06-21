@@ -29,9 +29,10 @@ model: opus
 
 # 표준 산출물
 
-**산출물은 자족형 HTML(`.html`)** 로 만들어 `docs/`(또는 지정 위치)에 저장한다.
-- **템플릿 우선** — `docs/Templates/`에 템플릿이 있으면 따른다. 없으면 표준 다크 스타일(인라인 CSS) + **SVG 적극 활용**(구조·흐름·관계 시각화). 동봉 `templates/artifact-base.html` 참고.
-- **예외**: 리포지토리 관례상 Markdown이 요구되는 파일(예: 저장소 루트 `README.md`, `CHANGELOG.md`)은 그 관례를 따른다.
+**산출물은 GitHub-flavored Markdown(`.md`)** 으로 만들어 `docs/`(또는 지정 위치)에 저장한다.
+- **템플릿 우선** — `docs/Templates/`에 마크다운 템플릿이 있으면 따른다. 구조·흐름·관계는 **Mermaid 적극 활용**으로 시각화한다.
+- 저장소 루트 `README.md`·`CHANGELOG.md` 등 리포지토리 관례상 Markdown이 요구되는 파일도 그대로 마크다운으로 작성한다.
+- 현재 방식의 자족형 HTML(다크 테마·SVG)로 내보내야 하면 `artifacts-to-html` 스킬로 변환한다.
 
 - **README**: 한 줄 소개 / 주요 기능 / 설치 / 빠른 시작 / 사용법 / 설정 / 라이선스
 - **API 레퍼런스**: 엔드포인트·함수별 시그니처 / 파라미터 / 응답 / 예제 / 에러

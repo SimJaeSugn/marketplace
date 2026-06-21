@@ -23,9 +23,9 @@
     {
       "name": "dev-harness-structured-v1",
       "source": "./plugins/dev-harness-structured-v1",
-      "description": "dev-harness-plus 기반 + 산출물 구조 고정판 — 디렉토리·파일명·명명 규칙·섹션 구조를 단일 출처로 명시해 어떤 프로젝트에서든 동일한 구조의 산출물을 생성한다. 에이전트 12종 + 스킬 2종.",
+      "description": "dev-harness-plus 기반 + 산출물 구조 고정판 — 디렉토리·파일명·명명 규칙·섹션 구조를 단일 출처로 명시해 어떤 프로젝트에서든 동일한 구조의 산출물을 생성한다. 산출물은 마크다운(Mermaid)으로 생성하고 통합 현황판(progress.html)만 HTML로 유지하며, artifacts-to-html 스킬로 요청 시 HTML로 내보낸다. 에이전트 12종 + 스킬 3종.",
       "category": "developer-tools",
-      "tags": ["orchestration", "planning", "architecture", "agents", "security", "quality-gate", "structured-output"]
+      "tags": ["orchestration", "planning", "architecture", "agents", "security", "quality-gate", "structured-output", "markdown"]
     }
   ]
 }

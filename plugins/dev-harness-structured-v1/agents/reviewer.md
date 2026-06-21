@@ -32,15 +32,14 @@ model: opus
 2. 아래 단계별 체크리스트로 점검한다. 가능하면 `Bash`/`Grep`으로 실제 확인한다(존재·일관성·참조 무결성).
 3. 판정한다: **PASS** (그대로 진행 가능) 또는 **FAIL** (반영 필요).
 4. FAIL이면 **반영 항목**을 구체적으로 적는다: 무엇이 / 어디서 / 왜 문제 / 어떻게 고쳐야 하는지.
-5. 결과를 `docs/reviews/`에 **고정 명명 규칙**으로 저장한다(자족형 HTML — 아래 형식 규칙):
-   - `{대상}_review_{회차}.html` — `{대상}` ∈ `planning`(기획) · `roadmap`(로드맵) · `architecture`(설계).
-     예: `planning_review_1.html`, `architecture_review_2.html`, `roadmap_review_1.html`.
+5. 결과를 `docs/reviews/`에 **고정 명명 규칙**으로 저장한다(마크다운 — 아래 형식 규칙):
+   - `{대상}_review_{회차}.md` — `{대상}` ∈ `planning`(기획) · `roadmap`(로드맵) · `architecture`(설계).
+     예: `planning_review_1.md`, `architecture_review_2.md`, `roadmap_review_1.md`.
    - `{회차}`(n)는 적대적/반영 라운드(`_1`,`_2`…). 파일명을 임의 작명하지 않는다(단일 출처: `dev-orchestrator` 구조 명세).
    - 표준 섹션: 판정 및 요약(배지+건수표) → 체크리스트 결과(항목/판정/근거 표) → (필요 시)추적성 교차대조 → 이슈 상세(P1/P2/P3).
 
-> **산출 형식(HTML)**: 검증 보고도 `.html`로 쓴다. `docs/Templates/`에 템플릿이 있으면 따르고, 없으면 동봉
-> `templates/artifact-base.html`의 `:root` CSS 변수(색상 팔레트 단일 출처)를 따른다(인라인 CSS). 판정·반영 항목은 표로,
-> 관계·흐름이 필요하면 SVG로 시각화한다.
+> **산출 형식(Markdown)**: 검증 보고도 `.md`로 쓴다. `docs/Templates/`에 마크다운 템플릿이 있으면 따른다. 판정은
+> **텍스트 배지**(`**PASS**`/`**FAIL**`·`P1`/`P2`/`P3`), 반영 항목은 마크다운 표로, 관계·흐름이 필요하면 Mermaid로 시각화한다.
 
 # 단계별 체크리스트
 
